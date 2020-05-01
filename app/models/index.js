@@ -23,9 +23,19 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.fotos = require("./foto.model.js")(sequelize, Sequelize);
+db.foto = require("./foto.model.js")(sequelize, Sequelize);
+db.album = require("./album.model.js")(sequelize, Sequelize);
 db.user = require("./user.model.js")(sequelize, Sequelize);
 db.role = require("./role.model.js")(sequelize, Sequelize);
+
+
+db.foto.belongsToMany(db.album, {
+  through: "album_photo"
+});
+
+db.album.belongsToMany(db.foto, {
+  through: "album_photo"
+});
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",

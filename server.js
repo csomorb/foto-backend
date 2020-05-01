@@ -23,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = require("./app/models");
 const Role = db.role;
+const Album = db.album;
 // db.sequelize.sync(); //Todo A decocher pour la prod!
 db.sequelize.sync({ force: true }).then(() => {
     console.log("Drop and re-sync db.");
@@ -37,6 +38,7 @@ app.get("/", (req, res) => {
 // routes
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
+require('./app/routes/album.routes')(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
@@ -60,4 +62,24 @@ function initial() {
       id: 3,
       name: "admin"
     });
+
+    Album.create({
+      id: 1,
+      title: "Album 1",
+      description: "Description album 1",
+      idParent: 0
+    });
+    Album.create({
+      id: 2,
+      title: "Album 2",
+      description: "Description album 2",
+      idParent: 0
+    });
+    Album.create({
+      id: 3,
+      title: "Sous Album 1",
+      description: "Description sous album",
+      idParent: 1
+    });
+
   }
